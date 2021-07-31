@@ -5,17 +5,21 @@ class Ingrediente(models.Model):
     nombre = models.CharField(max_length=200)
     precio = models.DecimalField(decimal_places=2,max_digits=100)
 
+    def __str__(self) -> str:
+        return self.nombre
+
 class Tamano(models.Model):
     nombre = models.CharField(max_length=200)
     precio = models.DecimalField(decimal_places=2,max_digits=100)
 
+    def __str__(self) -> str:
+        return self.nombre
+
 class Sandwich(models.Model):
+    
     id_factura = models.IntegerField()
     tamano = models.ForeignKey(Tamano, on_delete=models.CASCADE)
 
-
-    def __init__(self, tipo):
-       foo
 
     def individual(self):
         foo
@@ -52,3 +56,4 @@ class Sandwich(models.Model):
 class Ingredientes(models.Model):
     ingrediente = models.ForeignKey(Ingrediente, on_delete= models.CASCADE)
     sandwich = models.ForeignKey(Sandwich, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
