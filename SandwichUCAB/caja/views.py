@@ -17,6 +17,49 @@ def index(request, id=0):
     return HttpResponse(template.render(context,request))
 
 
+def getSandwiches(request):
+    if request.method == 'GET':
+        try:
+            sandwich_list = []
+            sandwiches = Sandwich.objects.filter()
+            for sandwich in sandwiches:
+                total = sandwich.tamano.precio
+                sandwich_dict = {
+                    "id" : sandwich.id,
+                    "size": {
+                        "price": sandwich.tamano.precio,
+                        "size_name": sandwich.tamano.nombre
+                    },
+                    "ingredients" : []
+                }
+                ingredients_sandwich = sandwich.ingredientes_set.filter()
+                for ingredient in ingredients_sandwich:
+                    total += ingredient.quantity * ingredient.ingrediente.precio
+                    ingredient_dict = {
+                        "quantity" : ingredient.quantity,
+                        "price" : ingredient.ingrediente.precio,
+                        "name" : ingredient.ingrediente.nombre
+                    }
+                    sandwich_dict["ingredients"].append(ingredient_dict)
+
+                sandwich_dict.update({
+                    "total" : total
+                })
+                #finally add the sandwich to the list
+                sandwich_list.append(sandwich_dict)
+
+            
+
+            return JsonResponse(sandwich_list, safe=False)
+        except Sandwich.DoesNotExist:
+            return HttpResponseBadRequest("no hay sandwiches guardados")
+
+    else:
+        return HttpResponseBadRequest("Ese metodo no esta permitido")
+
+
+
+
 def createSandwich(request):
     if request.method == 'POST':
         request_data = loads(request.body)
@@ -24,10 +67,8 @@ def createSandwich(request):
         size_id = request_data["size_id"]
 
         sandwich = Sandwich.objects.create( tamano_id = size_id, id_factura = 0 )
-        print(sandwich.id)
 
         for ingredient in ingredient_list:
-            print(ingredient)
             Ingredientes.objects.create(ingrediente_id = ingredient["ingredient_id"], sandwich_id = sandwich.id, quantity = ingredient["quantity"])
 
         response = {

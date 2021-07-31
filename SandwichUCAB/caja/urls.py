@@ -20,5 +20,6 @@ from . import views
 app_name = 'caja'
 
 urlpatterns = [
-    path('add', views.createSandwich, name='index'),
+    path('add', views.createSandwich, name='create'),
+    path('get', views.getSandwiches, name='get' )
 ]
