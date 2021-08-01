@@ -21,5 +21,7 @@ app_name = 'caja'
 
 urlpatterns = [
     path('add', views.createSandwich, name='create'),
-    path('get', views.getSandwiches, name='get' )
+    path('get', views.getSandwiches, name='get' ),
+    path('get', views.getTamanos, name='get' ),
+    path('get', views.getIngredientes, name='get' )
 ]
