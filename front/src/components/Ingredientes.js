@@ -9,7 +9,6 @@ import VerticalAlign from './VerticalAlign';
 
 function Ingredientes() {
   return (
-    <div>
      <Layout>
        <VerticalAlign>
          <img
@@ -38,7 +37,6 @@ function Ingredientes() {
          <MenuButton size={"150px"} path={"/Pregunta"}>Confirmar</MenuButton>
        </VerticalAlign>
      </Layout>
-    </div>
   );
 }
 

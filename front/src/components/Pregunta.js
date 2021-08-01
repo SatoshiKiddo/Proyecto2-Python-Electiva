@@ -9,24 +9,22 @@ import VerticalAlign from './VerticalAlign';
 
 function Inicio() {
   return (
-    <div>
-     <Layout>
-       <VerticalAlign>
-         <img
-         src={logo}
-         alt="logo"
-         style={{height: "100px", width: "100px"}}
-         />
-         <h1>SandwichesUCAB</h1>
-       </VerticalAlign>
+    <Layout>
+      <VerticalAlign>
+        <img
+          src={logo}
+          alt="logo"
+          style={{ height: "100px", width: "100px" }}
+        />
+        <h1>SandwichesUCAB</h1>
+      </VerticalAlign>
 
-       <VerticalAlign>
+      <VerticalAlign>
         <h3>Agregar otro sandwich?</h3>
         <label> <MenuButton size={"150px"} path={"/Size"}>Si</MenuButton>
-         <MenuButton size={"150px"} path={"/Resumen"}>No</MenuButton></label>
-       </VerticalAlign>
-     </Layout>
-    </div>
+          <MenuButton size={"150px"} path={"/Resumen"}>No</MenuButton></label>
+      </VerticalAlign>
+    </Layout>
   );
 }
 

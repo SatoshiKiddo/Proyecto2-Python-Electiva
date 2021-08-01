@@ -5,6 +5,7 @@
 }
 
 .content{
+    height: 100%;
     flex-grow: 1;
     background-color: #fbffcc;
     display: flex;

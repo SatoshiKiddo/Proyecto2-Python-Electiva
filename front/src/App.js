@@ -12,16 +12,12 @@ function App() {
   return (
     <BrowserRouter>
     <Switch>
-      <Route path="/" exact render={() => <Redirect to={ "/Inicio"} />} />
       <Route path="/Inicio" component={Inicio} />
-      <Route path="/" exact render={() => <Redirect to={ "/Datos"} />} />
       <Route path="/Datos" component={Datos} />
-      <Route path="/" exact render={() => <Redirect to={ "/Size"} />} />
       <Route path="/Size" component={Size} />
-      <Route path="/" exact render={() => <Redirect to={ "/Ingredientes"} />} />
       <Route path="/Ingredientes" component={Ingredientes} />
-      <Route path="/" exact render={() => <Redirect to={ "/Pregunta"} />} />
       <Route path="/Pregunta" component={Pregunta} />
+      <Redirect to="/Inicio"/>
     </Switch>
     </BrowserRouter>
   );
