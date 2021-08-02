@@ -157,7 +157,7 @@ def getFactura(request, factura):
     if request.method == 'GET':
         total=0
         try:
-            factura = Factura.objects.filter(factura)
+            factura = Factura.objects.get(id=factura)
         except Factura.DoesNotExist:
             return HttpResponseBadRequest("no hay factura registrada")
         deliveries = Delivery.objects.filter(factura=factura)
@@ -172,6 +172,8 @@ def getFactura(request, factura):
             ingredients_sandwich = sandwich.ingredientes_set.filter()
             for ingredient in ingredients_sandwich:
                 total += ingredient.quantity * ingredient.ingrediente.precio
+
+        precio_pred=total
             
         descuentos = Descuento.objects.filter(factura=factura)
         descuento_app=0
@@ -179,7 +181,6 @@ def getFactura(request, factura):
             total-=total*descuento.descuento
             descuento_app=+descuento.descuento
 
-        factura.update(total=total)
         factura.total= total
 
         response = {
@@ -187,7 +188,8 @@ def getFactura(request, factura):
             "factura_id" : factura.id,
             "nombre": factura.nombre,
             "apellido": factura.apellido,
-            "precio_total": factura.total,
+            "precio_pred": precio_pred,
+            "precio_total": total,
             "descuento_aplicado": descuento_app,
             "precio_delivery": delivery_app
         }
@@ -203,7 +205,7 @@ def createFactura(request):
         nombre = request_data["nombre"]
         apellido = request_data["apellido"]
 
-        factura = Factura.objects.create(total= 0, nombre= nombre, apellido= apellido )
+        factura = Factura.objects.create(total= 0, nombre= nombre, apellido= apellido)
 
         response = {
             "message" : "factura creada correctamente",
@@ -222,14 +224,14 @@ def agregarDescuento(request):
         descuento = request_data["descuento"]
         descripcion = request_data["descripcion"]
         try:
-            Factura.objects.filter(factura_id)
+            factura=Factura.objects.get(id=factura_id)
         except Factura.DoesNotExist:
             return HttpResponseBadRequest("no hay factura registrada")
 
-        descuento= Descuento.objects.create(descuento= descuento, descripcion=descripcion )
+        descuento= Descuento.objects.create(descuento= descuento, descripcion=descripcion, factura= factura)
 
         response = {
-            "message" : "factura creada correctamente",
+            "message" : "Descuento creado correctamente",
             "descuento_id" : descuento.id
         }
 
@@ -245,14 +247,14 @@ def agregarDelivery(request):
         precio = request_data["precio"]
         descripcion = request_data["descripcion"]
         try:
-            Factura.objects.filter(factura_id)
+            factura= Factura.objects.get(id=factura_id)
         except Factura.DoesNotExist:
             return HttpResponseBadRequest("no hay factura registrada")
 
-        delivery= Delivery.objects.create(precio=precio, descripcion=descripcion)
+        delivery= Delivery.objects.create(precio=precio, descripcion=descripcion, factura= factura)
 
         response = {
-            "message" : "factura creada correctamente",
+            "message" : "Delivery creado correctamente",
             "descuento_id" : delivery.id
         }
 
@@ -269,14 +271,22 @@ def createSandwich(request):
         size_id = request_data["size_id"]
         factura_id = request_data["factura"]
         try:
-            Factura.objects.filter(factura_id)
+            factura = Factura.objects.get(id=factura_id)
         except Factura.DoesNotExist:
-            return HttpResponseBadRequest("no hay factura registrada")
+            return HttpResponseBadRequest("No hay factura registrada")
+        try:
+            tamano = Tamano.objects.get(id=size_id)
+        except Tamano.DoesNotExist:
+            return HttpResponseBadRequest("No hay tamano registrado")
 
-        sandwich = Sandwich.objects.create( tamano_id = size_id, id_factura = factura_id )
+        sandwich = Sandwich.objects.create( tamano_id = tamano.id, factura = factura )
 
         for ingredient in ingredient_list:
-            Ingredientes.objects.create(ingrediente_id = ingredient["ingredient_id"], sandwich_id = sandwich.id, quantity = ingredient["quantity"])
+            try:
+                ingrediente = Ingrediente.objects.get(id = ingredient["ingredient_id"])
+            except Ingrediente.DoesNotExist:
+                return HttpResponseBadRequest("No hay ingrediente registrado")
+            Ingredientes.objects.create(ingrediente_id = ingrediente.id, sandwich_id = sandwich.id, quantity = ingredient["quantity"])
 
         response = {
             "message" : "sandiwch guardado correctamente",

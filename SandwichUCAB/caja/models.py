@@ -5,19 +5,14 @@ class Ingrediente(models.Model):
     nombre = models.CharField(max_length=200)
     precio = models.DecimalField(decimal_places=2,max_digits=100)
 
-    def __str__(self) -> str:
-        return self.nombre
-
 class Tamano(models.Model):
     nombre = models.CharField(max_length=200)
     precio = models.DecimalField(decimal_places=2,max_digits=100)
 
-    def __str__(self) -> str:
-        return self.nombre
-
-
 class Factura(models.Model):
     total = models.DecimalField(decimal_places=2,max_digits=100)
+    nombre = models.CharField(default= "", max_length=200)
+    apellido = models.CharField(default= "", max_length=200)
 
 class Sandwich(models.Model):
     

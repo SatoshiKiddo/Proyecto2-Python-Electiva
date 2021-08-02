@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "b22e3069-5149-4f0b-8e09-acd69303359a",
+		"name": "SandwichUcab",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create sandwich",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ingredients\" : [\r\n        {\r\n            \"ingredient_id\" : 1,\r\n            \"quantity\": 3\r\n        },\r\n        {\r\n            \"ingredient_id\" : 2,\r\n            \"quantity\": 3\r\n        },\r\n        {\r\n            \"ingredient_id\" : 1,\r\n            \"quantity\": 3\r\n        }\r\n    ],\r\n    \"size_id\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/caja/addSandwich",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"caja",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sandwiches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/caja/getSandwiches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"caja",
+						"get"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
