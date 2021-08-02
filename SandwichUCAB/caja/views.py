@@ -185,6 +185,8 @@ def getFactura(request, factura):
         response = {
             "message" : "Factura correspondiente obtenida",
             "factura_id" : factura.id,
+            "nombre": factura.nombre,
+            "apellido": factura.apellido,
             "precio_total": factura.total,
             "descuento_aplicado": descuento_app,
             "precio_delivery": delivery_app
@@ -198,8 +200,10 @@ def getFactura(request, factura):
 def createFactura(request):
     if request.method == 'POST':
         request_data = loads(request.body)
+        nombre = request_data["nombre"]
+        apellido = request_data["apellido"]
 
-        factura = Factura.objects.create(total= 0 )
+        factura = Factura.objects.create(total= 0, nombre= nombre, apellido= apellido )
 
         response = {
             "message" : "factura creada correctamente",
