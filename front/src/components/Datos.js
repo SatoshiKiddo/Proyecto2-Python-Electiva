@@ -3,42 +3,37 @@ import './../App.css';
 import MenuButton from './Button';
 import Layout from './Layout';
 import VerticalAlign from './VerticalAlign';
+import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios'
 
-var nombre=""
-var apellido=""
-var factura=0
-const axios = require('axios');
 
-function changeApellido(event){
-  apellido=event.target.value;
-}
+const Datos = () => {
 
-function changeNombre(event){
-  nombre=event.target.value;
-  console.log(event.target.value)
-}
+  const history = useHistory();
+  const [nombre,setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
 
-function crearFactura(event){
-  console.log("Se crea factura.");
-  let data={
-    "nombre":nombre,
-    "apellido":apellido
+  const crearFactura = (event) => {
+    console.log("Se crea factura.");
+    let data = {
+      "nombre": nombre,
+      "apellido": apellido
+    }
+    let options = {
+      method: 'POST',
+      body: JSON.stringify(data)
+    };
+    fetch('http://127.0.0.1:8000/caja/addFactura', options).then(
+      res => {
+        const factura = res.json();
+        factura.then((respuesta) => {
+          console.log(respuesta.factura_id);
+          history.push(`/Size/${respuesta.factura_id}`)
+        });
+      });
   }
-  let options= {
-    method: 'POST',
-    body: JSON.stringify(data)
-  };
-  fetch('http://127.0.0.1:8000/caja/addFactura',options).then(
-                res => {
-                  factura=res.json();
-                  factura.then((respuesta) => {
-                    console.log(respuesta.factura_id);
-                    factura= respuesta.factura_id;
-                  });
-                });
-}
 
-function Datos() {
   return (
 
     <Layout>
@@ -54,14 +49,14 @@ function Datos() {
       <VerticalAlign>
         <center><h3>Datos del Cliente:</h3></center>
         <strong>
-          <label>Nombre: <input className="btn input" type="text" id="nombre" onChange={changeNombre}/></label>
+          <label>Nombre: <input className="btn input" type="text" id="nombre" onChange={(e) => setNombre(e.target.value)} /></label>
         </strong>
         <strong>
-          <label>Apellido: <input className="btn input" type="text" id="apellido" onChange={changeApellido} /></label>
+          <label>Apellido: <input className="btn input" type="text" id="apellido" onChange={ e => setApellido(e.target.value) } /></label>
         </strong>
-        <div onClick={crearFactura}>
-          <MenuButton size={"150px"} path={"/Size"} factura={factura}>Confirmar</MenuButton>
-        </div>
+
+        <MenuButton size={"150px"} path={`/Size`} onClick={crearFactura} >Confirmar</MenuButton>
+
       </VerticalAlign>
     </Layout>
 
