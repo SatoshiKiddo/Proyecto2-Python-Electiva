@@ -8,6 +8,7 @@ import VerticalAlign from './VerticalAlign';
 
 
 function Ingredientes() {
+
   return (
      <Layout>
        <VerticalAlign>
