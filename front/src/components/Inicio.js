@@ -3,11 +3,15 @@ import './../App.css';
 import MenuButton from './Button';
 import Layout from './Layout';
 import VerticalAlign from './VerticalAlign';
+import { useHistory, useParams } from 'react-router-dom';
 
 
 
 
 function Inicio() {
+
+  const history = useHistory();
+
   return (
     <Layout>
       <VerticalAlign>
@@ -20,7 +24,7 @@ function Inicio() {
       </VerticalAlign>
 
       <VerticalAlign>
-        <MenuButton size={"250px"} path={"/Datos"}>Nuevo Pedido</MenuButton>
+        <MenuButton size={"250px"} path={"/Datos"} onClick={() => history.push(`/Datos`)}>Nuevo Pedido</MenuButton>
         <MenuButton size={"250px"}>Opc. Administrador</MenuButton>
       </VerticalAlign>
     </Layout>
