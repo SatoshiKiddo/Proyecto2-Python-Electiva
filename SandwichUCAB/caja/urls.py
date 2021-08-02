@@ -20,8 +20,14 @@ from . import views
 app_name = 'caja'
 
 urlpatterns = [
-    path('add', views.createSandwich, name='create'),
-    path('get', views.getSandwiches, name='get' ),
-    path('get', views.getTamanos, name='get' ),
-    path('get', views.getIngredientes, name='get' )
+    path('addSandwich', views.createSandwich, name='create'),
+    path('getSandwiches/<int:factura>/', views.getSandwiches, name='get' ),
+    path('getTamanos', views.getTamanos, name='get' ),
+    path('getIngredientes', views.getIngredientes, name='get' ),
+    path('getDescuentos/<int:factura>', views.getDescuentos, name='get' ),
+    path('getDelivery/<int:factura>', views.getDelivery, name='get' ),
+    path('getFactura/<int:factura>', views.getFactura, name='get' ),
+    path('addDelivery', views.agregarDelivery, name='create'),
+    path('addDescuento', views.agregarDescuento, name='create'),
+    path('addFactura', views.createFactura, name='create'),
 ]

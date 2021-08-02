@@ -21,7 +21,7 @@ def getSandwiches(request, factura):
     if request.method == 'GET':
         try:
             sandwich_list = []
-            sandwiches = Sandwich.objects.filter(id_Factura = factura)
+            sandwiches = Sandwich.objects.filter(factura = factura)
             for sandwich in sandwiches:
                 total = sandwich.tamano.precio
                 sandwich_dict = {
@@ -157,7 +157,7 @@ def getFactura(request, factura):
     if request.method == 'GET':
         total=0
         try:
-            factura = Factura.objects.filter(factura_id)
+            factura = Factura.objects.filter(factura)
         except Factura.DoesNotExist:
             return HttpResponseBadRequest("no hay factura registrada")
         deliveries = Delivery.objects.filter(factura=factura)
@@ -166,7 +166,7 @@ def getFactura(request, factura):
             total+=delivery.precio
             delivery_app+=delivery.precio
 
-        sandwiches = Sandwich.objects.filter(id_Factura = factura)
+        sandwiches = Sandwich.objects.filter(factura = factura)
         for sandwich in sandwiches:
             total+=sandwich.tamano.precio
             ingredients_sandwich = sandwich.ingredientes_set.filter()
