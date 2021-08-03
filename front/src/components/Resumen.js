@@ -4,6 +4,7 @@ import MenuButton from './Button';
 import Layout from './Layout';
 import VerticalAlign from './VerticalAlign';
 import { useHistory, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 /*{
   "message": "Factura correspondiente obtenida",
@@ -27,58 +28,53 @@ import { useHistory, useParams } from 'react-router-dom';
     }
     */
 
-var factura_id="";
-var nombre="";
-var apellido="";
-var precio_total="";
-var sandwiches_t=[];
-var impresion=[];
-
+var count =0
 function Resumen() {
 
+  var [factura_id, setFactura_id] = useState("");
+  var [nombre, setNombre] = useState("");
+  var [apellido, setApellido] = useState("");
+  var [precio_total, setPrecio_total] = useState("");
+  var [impresion,setImpresion] = useState([]);
+
   const history = useHistory();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const linkInicio = (event) => {
     history.push(`/Inicio`)
   }
-  
-    let options = {
-      method: 'GET'
-    };
+
+  useEffect(() =>  {
+    if (count == 0){
+      count=1;
     fetch('http://127.0.0.1:8000/caja/getFactura/' + id, options).then(
       res => {
         const factura = res.json();
         factura.then((respuesta) => {
-          nombre= respuesta.nombre;
-          apellido= respuesta.apellido;
-          factura_id= respuesta.factura_id;
-          precio_total= respuesta.precio_total;
-          fetch('http://127.0.0.1:8000/caja/getSandwiches/' + id, options).then(
-            res => {
-              sandwiches_t=[];
-              const sandwiches = res.json();
-              sandwiches.then((sandwiches) => {
-                  sandwiches.forEach(element => {
-                  let impresion_ing="";
-                  element.ingredients.forEach(element => {
-                    impresion_ing+=<ul>Ingrediente: {element.name} - Precio: {element.price}</ul>
-                  });
-                  impresion.push(<label>
-                    <p>tamano: {element.size.name}</p>
-                    <p>precio tamano: {element.size.price}</p>
-                    <p>Ingredientes:</p>
-                    <li>
-                      {impresion_ing}
-                    </li>
-                    <p>Total: {element.total}</p>
-                  </label>);
-                  });
+          setNombre(respuesta.nombre);
+          setApellido(respuesta.apellido);
+          setFactura_id(respuesta.factura_id);
+          setPrecio_total(respuesta.precio_total);
         });
       });
+    fetch('http://127.0.0.1:8000/caja/getSandwiches/' + id, options).then(
+      res => {
+        var arreglo = [];
+        const sandwiches = res.json();
+        sandwiches.then((sandwiches) => {
+          sandwiches.forEach(element => {
+            arreglo.push(element);
+          });
+          setImpresion(arreglo);
         });
       });
-  
+    }
+  })
+
+  let options = {
+    method: 'GET'
+  };
+
       return (
         <Layout>
           <VerticalAlign>
@@ -96,9 +92,19 @@ function Resumen() {
                   <p>Factura id: {factura_id}</p>
                   <p>Nombre: {nombre} - Apellido: {apellido}</p>
                   <p>Precio Total: {precio_total}</p>
-                  {impresion.map((sandwich) => {
-                    <label>{sandwich}</label>
-                  })}
+                  <label>
+                    {impresion.map((sandwich) => {
+                      <label>
+                      <p>tamano: {sandwich.size.name}</p>
+                      <p>precio tamano: {sandwich.size.price}</p>
+                      <p>Ingredientes:</p>
+                      <li>
+                      {sandwich.ingredients.forEach(element => <ul>Ingrediente: {element.name} - Precio: {element.price}</ul>)}
+                      </li>
+                      <p>Total: {sandwich.total}</p>
+                      </label>
+                    })}
+                  </label>
             </label>
             <label><MenuButton size={"150px"} path={"/Resumen"} onClick={linkInicio}>Inicio</MenuButton></label>
           </VerticalAlign>
