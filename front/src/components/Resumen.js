@@ -32,7 +32,7 @@ var nombre="";
 var apellido="";
 var precio_total="";
 var sandwiches_t=[];
-var impresion;
+var impresion=[];
 
 function Resumen() {
 
@@ -42,9 +42,7 @@ function Resumen() {
   const linkInicio = (event) => {
     history.push(`/Inicio`)
   }
-
-
-    console.log("Se obtiene factura.");
+  
     let options = {
       method: 'GET'
     };
@@ -56,25 +54,26 @@ function Resumen() {
           apellido= respuesta.apellido;
           factura_id= respuesta.factura_id;
           precio_total= respuesta.precio_total;
-          fetch('http://127.0.0.1:8000/caja/getFactura/' + id, options).then(
+          fetch('http://127.0.0.1:8000/caja/getSandwiches/' + id, options).then(
             res => {
               sandwiches_t=[];
               const sandwiches = res.json();
               sandwiches.then((sandwiches) => {
-              sandwiches.array.forEach(element => {
-                let impresion_ing="";
-                sandwiches.ingredients.array.forEach(element => {
-                  impresion_ing+=<ul>Ingrediente: {element.ingredients.name} - Precio: {element.ingredients.price}</ul>
-                });
-                impresion+=(<label>
-                  <p>tamano: {element.size.name}</p>
-                  <p>precio tamano: {element.size.price}</p>
-                  <p>Ingredientes:</p>
-                  <li>
-                    {impresion_ing}
-                  </li>
-                </label>);
-              });
+                  sandwiches.forEach(element => {
+                  let impresion_ing="";
+                  element.ingredients.forEach(element => {
+                    impresion_ing+=<ul>Ingrediente: {element.name} - Precio: {element.price}</ul>
+                  });
+                  impresion.push(<label>
+                    <p>tamano: {element.size.name}</p>
+                    <p>precio tamano: {element.size.price}</p>
+                    <p>Ingredientes:</p>
+                    <li>
+                      {impresion_ing}
+                    </li>
+                    <p>Total: {element.total}</p>
+                  </label>);
+                  });
         });
       });
         });
@@ -97,6 +96,9 @@ function Resumen() {
                   <p>Factura id: {factura_id}</p>
                   <p>Nombre: {nombre} - Apellido: {apellido}</p>
                   <p>Precio Total: {precio_total}</p>
+                  {impresion.map((sandwich) => {
+                    <label>{sandwich}</label>
+                  })}
             </label>
             <label><MenuButton size={"150px"} path={"/Resumen"} onClick={linkInicio}>Inicio</MenuButton></label>
           </VerticalAlign>

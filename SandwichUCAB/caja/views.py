@@ -280,13 +280,19 @@ def createSandwich(request):
             return HttpResponseBadRequest("No hay tamano registrado")
 
         sandwich = Sandwich.objects.create( tamano_id = tamano.id, factura = factura )
-
-        for ingredient in ingredient_list:
+        if (isinstance(ingredient_list, list)):
+            for ingredient in ingredient_list:
+                try:
+                    ingrediente = Ingrediente.objects.get(id = ingredient["ingredient_id"])
+                except Ingrediente.DoesNotExist:
+                    return HttpResponseBadRequest("No hay ingrediente registrado")
+                Ingredientes.objects.create(ingrediente_id = ingrediente.id, sandwich_id = sandwich.id, quantity = ingredient["quantity"])
+        else:
             try:
-                ingrediente = Ingrediente.objects.get(id = ingredient["ingredient_id"])
+                ingrediente = Ingrediente.objects.get(id = ingredient_list["ingredient_id"])
             except Ingrediente.DoesNotExist:
                 return HttpResponseBadRequest("No hay ingrediente registrado")
-            Ingredientes.objects.create(ingrediente_id = ingrediente.id, sandwich_id = sandwich.id, quantity = ingredient["quantity"])
+            Ingredientes.objects.create(ingrediente_id = ingrediente.id, sandwich_id = sandwich.id, quantity = ingredient_list["quantity"])
 
         response = {
             "message" : "sandiwch guardado correctamente",
