@@ -45,8 +45,6 @@ function Resumen() {
   }
 
   useEffect(() =>  {
-    if (count == 0){
-      count=1;
     fetch('http://127.0.0.1:8000/caja/getFactura/' + id, options).then(
       res => {
         const factura = res.json();
@@ -68,8 +66,7 @@ function Resumen() {
           setImpresion(arreglo);
         });
       });
-    }
-  })
+  }, []);
 
   let options = {
     method: 'GET'

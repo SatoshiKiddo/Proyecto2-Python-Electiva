@@ -75,17 +75,17 @@ function Ingredientes() {
         <h2 className="subtitulo">Ingredientes:</h2> 
          <h3><label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Jamón</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Champiñones</label>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={2} onClick={addIng}/>Champiñones</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Pimenton</label>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={3} onClick={addIng}/>Pimenton</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Doble queso</label>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={4} onClick={addIng}/>Doble queso</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Aceitunas</label>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={5} onClick={addIng}/>Aceitunas</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Peperoni</label>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={6} onClick={addIng}/>Peperoni</label>
          <br/>
-         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={1} onClick={addIng}/>Salchichón</label></h3>
+         <label><input style={{height: "15px", width: "15px"}} type="checkbox" id={7} onClick={addIng}/>Salchichón</label></h3>
          <MenuButton size={"150px"} path={"/Pregunta"} onClick={linkPreg}>Confirmar</MenuButton>
        </VerticalAlign>
      </Layout>
