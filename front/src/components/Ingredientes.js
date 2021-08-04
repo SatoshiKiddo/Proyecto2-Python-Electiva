@@ -16,7 +16,7 @@ function Ingredientes() {
   const linkPreg = (event) => {
     console.log("Se crea sandwich.");
     var ingredientes_b= []
-    var ingred
+    var ingred = []
     ing.forEach(element => {
       let idit = parseInt(element);
       console.log(element);

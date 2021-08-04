@@ -25,7 +25,7 @@ function Inicio() {
 
       <VerticalAlign>
         <MenuButton size={"250px"} path={"/Datos"} onClick={() => history.push(`/Datos`)}>Nuevo Pedido</MenuButton>
-        <MenuButton size={"250px"}>Opc. Administrador</MenuButton>
+        <MenuButton size={"250px"} onClick={() => history.push(`http://127.0.0.1:8000/admin`)}>Opc. Administrador</MenuButton>
       </VerticalAlign>
     </Layout>
   );

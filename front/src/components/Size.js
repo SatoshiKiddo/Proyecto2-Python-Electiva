@@ -34,9 +34,9 @@ function Size() {
 
       <VerticalAlign>
         <h3>Tamaño</h3>
-        <MenuButton size={"250px"} path={"/Ingredientes"} id={3} onClick={linkIng}>Triple</MenuButton>
-        <MenuButton size={"250px"} path={"/Ingredientes"} id={2} onClick={linkIng}>Doble</MenuButton>
-        <MenuButton size={"250px"} path={"/Ingredientes"} id={1} onClick={linkIng}>Individual</MenuButton>
+        <MenuButton size={"250px"} path={"/Ingredientes"} id={3} onClick={linkIng}>Triple - 300</MenuButton>
+        <MenuButton size={"250px"} path={"/Ingredientes"} id={2} onClick={linkIng}>Doble - 200</MenuButton>
+        <MenuButton size={"250px"} path={"/Ingredientes"} id={1} onClick={linkIng}>Individual - 100</MenuButton>
       </VerticalAlign>
     </Layout>
 
